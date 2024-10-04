@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fruit and Vegetable Sorting Game</title>
+  <style>
+    body {
+      background-color: #4f41a4;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow-y: auto; /* Enable vertical scrolling */
+      margin: 0; /* Remove default margin */
+      padding: 20px; /* Add some padding */
+      box-sizing: border-box; /* Include padding in element width */
+    }
+
+    h1 {
+      color: #120303;
+      margin-bottom: 10px; /* Reduced margin */
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 20px; /* Reduced margin */
+    }
+
+    .game-area {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0 auto; /* Center the game area */
+      max-width: 600px; /* Set a max width for better layout */
+    }
+
+    .basket {
+      width: 120px; /* Reduced size */
+      height: 120px; /* Reduced size */
+      border: 2px solid #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f4f4;
+      font-size: 16px;
+      margin: 5px; /* Reduced margin */
+      position: relative;
+      overflow: hidden;
+    }
+
+    .basket p {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 3px 5px;
+      border-radius: 5px;
+    }
+
+    .fruits {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .fruit {
+      margin: 5px; /* Reduced margin */
+      width: 100px; /* Reduced size */
+      height: 100px; /* Reduced size */
+      touch-action: none;
+      object-fit: cover;
+    }
+
+    #message {
+      margin-top: 30px;
+      font-size: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fruit and Vegetable Sorting Game</h1>
+  <p>Drag or touch the fruits and vegetables into their corresponding baskets!</p>
+
+  <div class="game-area">
+    <div class="basket" id="apple-basket">
+      <p>Apple Basket</p>
+    </div>
+    <div class="basket" id="banana-basket">
+      <p>Banana Basket</p>
+    </div>
+    <div class="basket" id="orange-basket">
+      <p>Orange Basket</p>
+    </div>
+    <div class="basket" id="strawberry-basket">
+      <p>Strawberry Basket</p>
+    </div>
+    <div class="basket" id="custardapple-basket">
+      <p>Custard Apple Basket</p>
+    </div>
+    <div class="basket" id="tomato-basket">
+      <p>Tomato Basket</p>
+    </div>
+    <div class="basket" id="potato-basket">
+      <p>Potato Basket</p>
+    </div>
+  </div>
+
+  <div class="fruits">
+    <img src="https://cdn.pixabay.com/photo/2016/11/18/13/47/apple-1834639_1280.jpg" id="apple" class="fruit" alt="Apple">
+    <img src="https://5.imimg.com/data5/SELLER/Default/2022/12/EK/NP/CN/49293026/fresh-banana-fruit.webp" id="banana" class="fruit" alt="Banana">
+    <img src="https://img.freepik.com/free-psd/orange-fruit-isolated-transparent-background_191095-14952.jpg" id="orange" class="fruit" alt="Orange">
+    <img src="https://cdn.britannica.com/22/75922-050-D3982BD0/flowers-fruits-garden-strawberry-plant-species.jpg" id="strawberry" class="fruit" alt="Strawberry">
+    <img src="https://images.meesho.com/images/products/142347503/xrsiw_512.webp" id="custardapple" class="fruit" alt="Custard Apple">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/1200px-Tomato_je.jpg" id="tomato" class="fruit" alt="Tomato">
+    <img src="https://www.homefortheharvest.com/wp-content/uploads/2022/03/tomato-and-potato-from-pomato-plant-held-in-hand.jpeg" id="potato" class="fruit" alt="Potato">
+  </div>
+
+  <div id="message"></div>
+
+  <script>
+    let draggedFruit = null;
+
+    // Function to handle touch events
+    function handleTouchStart(event) {
+      draggedFruit = event.target;
+    }
+
+    function handleTouchMove(event) {
+      const touch = event.touches[0];
+      draggedFruit.style.position = 'absolute';
+      draggedFruit.style.left = `${touch.clientX - 50}px`; // Adjusted to center the fruit
+      draggedFruit.style.top = `${touch.clientY - 50}px`; // Adjusted to center the fruit
+    }
+
+    function handleTouchEnd(event) {
+      const baskets = document.elementsFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+      const basket = baskets.find(el => el.classList.contains('basket'));
+
+      if (basket) {
+        const fruitId = draggedFruit.id;
+        const basketId = basket.id;
+
+        // Check if the correct fruit is dropped in the correct basket
+        if (
+          (fruitId === "apple" && basketId === "apple-basket") ||
+          (fruitId === "banana" && basketId === "banana-basket") ||
+          (fruitId === "orange" && basketId === "orange-basket") ||
+          (fruitId === "strawberry" && basketId === "strawberry-basket") ||
+          (fruitId === "custardapple" && basketId === "custardapple-basket") ||
+          (fruitId === "tomato" && basketId === "tomato-basket") ||
+          (fruitId === "potato" && basketId === "potato-basket")
+        ) {
+          basket.appendChild(draggedFruit);
+          document.getElementById("message").innerText = "Correct!";
+          document.getElementById("message").style.color = "green";
+        } else {
+          document.getElementById("message").innerText = "Oops! Wrong basket. Try again!";
+          document.getElementById("message").style.color = "red";
+        }
+      }
+
+      draggedFruit.style.position = 'static'; // Reset fruit position
+      draggedFruit = null;
+    }
+
+    // Attach event listeners for touch interaction
+    document.querySelectorAll('.fruit').forEach(fruit => {
+      fruit.addEventListener('touchstart', handleTouchStart);
+      fruit.addEventListener('touchmove', handleTouchMove);
+      fruit.addEventListener('touchend', handleTouchEnd);
+    });
+  </script>
+</body>
+</html>
