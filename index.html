@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Code to Access Game</title>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .input-container {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #message {
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Enter Code to Play the Game</h1>
+
+<div class="input-container">
+    <input type="text" id="userInput" placeholder="Enter code">
+    <button onclick="checkCode()">Submit</button>
+</div>
+
+<div id="message"></div>
+
+<script>
+    function checkCode() {
+        const input = document.getElementById('userInput').value;
+        const correctCode = '12345';  // Set this to the desired code
+
+        if (input === correctCode) {
+            window.location.href = 'chatgpt.html';  // Redirects to the game page
+        } else {
+            document.getElementById('message').innerText = 'Incorrect code, please try again!';
+        }
+    }
+</script>
+
+</body>
+</html>
